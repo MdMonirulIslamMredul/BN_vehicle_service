@@ -29,4 +29,9 @@ class Vehicle extends Model
     public function serviceRequests(){
         return $this->hasMany(ServiceRequest::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
 }
