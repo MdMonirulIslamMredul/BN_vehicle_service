@@ -5,12 +5,19 @@
     <div class="col-md-6">
         <div class="card p-4">
             <h3 class="text-center mb-4">Login</h3>
+            @if($errors->any())
+                <div class="alert alert-danger small">
+                    @foreach($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
+                </div>
+            @endif
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email Address</label>
-                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                    <label for="login" class="form-label">Email or Phone</label>
+                    <input id="login" type="text" class="form-control" name="login" value="{{ old('login') }}" required autofocus placeholder="Enter email or phone">
                 </div>
 
                 <div class="mb-3">

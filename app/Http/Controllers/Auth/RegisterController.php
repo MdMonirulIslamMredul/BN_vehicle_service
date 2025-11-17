@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -50,8 +52,12 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone' => ['required','string','max:30','unique:users,phone'],
+            'address' => ['nullable','string','max:255'],
+            'role' => ['nullable','in:owner,driver,admin'],
+            'license_number' => ['nullable','string','max:100'],
         ]);
     }
 
@@ -71,8 +77,26 @@ class RegisterController extends Controller
             'address' => $data['address'],
             'role' => $data['role'],
             'license_number' => $data['license_number'],
+            'is_active' => false,
 
 
         ]);
+    }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        // Don't auto-login - redirect to login with success message
+        return redirect()->route('login')
+            ->with('success', 'Registration successful! Please contact admin to activate your account.');
     }
 }

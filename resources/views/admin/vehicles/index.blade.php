@@ -15,6 +15,38 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    {{-- FILTERS & SEARCH (like Appointments) --}}
+    <div class="card mb-3">
+        <div class="card-body">
+            <form method="GET" action="{{ route('admin.vehicles') }}" class="row g-3">
+                <div class="col-md-6">
+                    <label for="search" class="form-label">Search</label>
+                    <input type="text" class="form-control" id="search" name="search"
+                           value="{{ $search ?? '' }}" placeholder="Chassis No or Registration No" autocomplete="off">
+                    <div id="liveVehicleResults" class="position-absolute w-100 bg-white border rounded shadow-sm"
+                         style="z-index:1000; display:none;"></div>
+                </div>
+                <div class="col-md-4">
+                    <label for="role" class="form-label">Role</label>
+                    <select class="form-select" id="role" name="role" onchange="this.form.submit()">
+                        <option value="all" {{ (!isset($role) || $role === 'all') ? 'selected' : '' }}>All</option>
+                        <option value="owner" {{ (isset($role) && $role === 'owner') ? 'selected' : '' }}>Owner</option>
+                        <option value="driver" {{ (isset($role) && $role === 'driver') ? 'selected' : '' }}>Driver</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                </div>
+            </form>
+            @php
+                $hasFilter = (request('role') && request('role') !== 'all') || (request('search'));
+            @endphp
+            @if($hasFilter)
+                <a href="{{ route('admin.vehicles') }}" class="btn btn-sm btn-outline-secondary mt-3">Reset Filter</a>
+            @endif
+        </div>
+    </div>
+
     {{-- No Vehicles --}}
     @if($vehicles->isEmpty())
         <div class="alert alert-info text-center">No vehicles found.</div>
@@ -110,3 +142,46 @@
 
 </div>
 @endsection
+
+@push('scripts')
+<script>
+(function() {
+    const searchInput = document.getElementById('search');
+    const resultsBox = document.getElementById('liveVehicleResults');
+    let timer;
+    let lastQuery = '';
+
+    function hideResults() {
+        resultsBox.style.display = 'none';
+        resultsBox.innerHTML = '';
+    }
+
+    searchInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        if (!query) {
+            hideResults();
+            return;
+        }
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            lastQuery = query;
+            const role = document.getElementById('role')?.value || '';
+            fetch(`{{ route('admin.vehicles.live_search') }}?search=${encodeURIComponent(query)}&role=${encodeURIComponent(role)}`)
+                .then(res => res.json())
+                .then(data => {
+                    resultsBox.innerHTML = data.html;
+                    resultsBox.style.display = 'block';
+                });
+        }, 300);
+    });
+
+    searchInput.addEventListener('blur', function() {
+        setTimeout(hideResults, 200);
+    });
+
+    resultsBox.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+    });
+})();
+</script>
+@endpush

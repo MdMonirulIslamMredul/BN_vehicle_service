@@ -34,6 +34,12 @@ Route::middleware(['auth', RoleMiddleware::class.':admin'])
         Route::get('dashboard', [AdminController::class,'index'])->name('dashboard');
         Route::get('users', [AdminController::class,'users'])->name('users');
         Route::get('vehicles', [AdminController::class,'vehicles'])->name('vehicles');
+        Route::post('users/{user}/toggle-active', [AdminController::class,'toggleUserActive'])->name('users.toggle');
+        Route::post('users/{user}/reset-password', [AdminController::class,'resetUserPassword'])->name('users.reset_password');
+
+        // AJAX live search endpoints
+        Route::get('vehicles/live-search', [AdminController::class, 'vehicleLiveSearch'])->name('vehicles.live_search');
+        Route::get('users/live-search', [AdminController::class, 'userLiveSearch'])->name('users.live_search');
 
 
         Route::get('/appointments', [AdminController::class, 'appointments'])->name('appointments');

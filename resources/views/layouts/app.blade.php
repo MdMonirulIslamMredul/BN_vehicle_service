@@ -144,5 +144,7 @@
             .dashboard-content-padding { margin-left: 220px; }
         }
     </style>
+
+    @stack('scripts')
 </body>
 </html>

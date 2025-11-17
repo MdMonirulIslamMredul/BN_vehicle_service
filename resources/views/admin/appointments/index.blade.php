@@ -17,7 +17,7 @@
                 <option value="not_connected" {{ ($filter ?? '') == 'not_connected' ? 'selected' : '' }}>Not Connected</option>
                 <option value="connected" {{ ($filter ?? '') == 'connected' ? 'selected' : '' }}>Connected</option>
             </select>
-            <noscript><button type="submit" class="btn btn-primary">Filter</button></noscript>
+            <noscript><button type="submit" class="btn btn-primary">Search</button></noscript>
         </form>
     </div>
 
