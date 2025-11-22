@@ -12,7 +12,7 @@
                 <div class="card text-white bg-primary shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title">Vehicle List</h5>
-                        <p class="card-text">View all your Vehicle </p>
+                        <p class="card-text">View all your Vehicles </p>
                     </div>
                 </div>
             </a>
