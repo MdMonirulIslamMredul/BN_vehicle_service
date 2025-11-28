@@ -7,7 +7,8 @@ use App\Http\Controllers\{
     ServiceRequestController,
     AdminController,
     OwnerController,
-    DriverController
+    DriverController,
+    ServiceController
 };
 use App\Http\Controllers\AppointmentController;
 use App\Http\Middleware\RoleMiddleware;
@@ -45,7 +46,10 @@ Route::middleware(['auth', RoleMiddleware::class.':admin'])
         Route::get('/appointments', [AdminController::class, 'appointments'])->name('appointments');
         Route::post('/appointments/{id}/status', [AdminController::class, 'updateAppointmentStatus'])->name('appointments.status');
 
-
+        // Services routes
+        Route::resource('services', ServiceController::class);
+        Route::get('services/search/phone', [ServiceController::class, 'searchByPhone'])->name('services.search_phone');
+        Route::post('services/{service}/status', [ServiceController::class, 'updateStatus'])->name('services.update_status');
 
         Route::get('service-requests', [AdminController::class,'serviceRequests'])->name('service_requests');
         Route::post('service-requests/{id}/assign', [AdminController::class,'assignDriver'])->name('assign_driver');
@@ -77,6 +81,8 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('vehicles', VehicleController::class);
     Route::resource('service-requests', ServiceRequestController::class);
 
+    // My Services route
+    Route::get('/my-services', [ServiceController::class, 'myServices'])->name('my.services');
 
     // Profile routes
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');

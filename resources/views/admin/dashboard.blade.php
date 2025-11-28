@@ -78,20 +78,49 @@
             </a>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-3">
-            <a href="{{ route('admin.service_requests') }}" class="card text-white bg-warning h-100 text-decoration-none">
-                <div class="card-body">
-                    <h5 class="card-title">Service Requests</h5>
-                    <p class="card-text">Assign drivers and track requests.</p>
-                </div>
-            </a>
-        </div>
+
 
         <div class="col-12 col-md-6 col-lg-3">
             <a href="{{ route('admin.appointments') }}" class="card text-white bg-danger h-100 text-decoration-none">
                 <div class="card-body">
                     <h5 class="card-title">View Appointments</h5>
                     <p class="card-text">Manage all vehicle service appointments.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-3">
+            <a href="{{ route('admin.services.create') }}" class="card text-white bg-warning h-100 text-decoration-none">
+                <div class="card-body">
+                    <h5 class="card-title"> Add New Service </h5>
+                    <p class="card-text">Assign drivers and track requests.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-3">
+            <a href="{{ route('admin.services.index') }}" class="card text-white bg-info h-100 text-decoration-none">
+                <div class="card-body">
+                    <h5 class="card-title">All Services List</h5>
+                    <p class="card-text">Manage service records and operations.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-3">
+            <a href="{{ route('admin.services.index', ['status' => 'pending']) }}" class="card text-white bg-secondary h-100 text-decoration-none">
+                <div class="card-body">
+                    <h5 class="card-title">Pending Services</h5>
+                    <p class="card-text">View all pending service requests.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-3">
+            <a href="{{ route('admin.services.index', ['status' => 'finished']) }}" class="card text-white bg-success h-100 text-decoration-none">
+                <div class="card-body">
+                    <h5 class="card-title">Services Done List</h5>
+                    <p class="card-text">View all completed services.</p>
                 </div>
             </a>
         </div>

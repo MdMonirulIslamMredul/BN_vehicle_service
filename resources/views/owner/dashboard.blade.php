@@ -31,8 +31,18 @@
             <a href="{{ route('service-requests.index') }}" class="text-decoration-none">
                 <div class="card text-white bg-warning shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">Services </h5>
-                        <p class="card-text">View My Services</p>
+                        <h5 class="card-title">Service Requests</h5>
+                        <p class="card-text">View My Service Requests</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6 mb-3">
+            <a href="{{ route('my.services') }}" class="text-decoration-none">
+                <div class="card text-white bg-info shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">My Services</h5>
+                        <p class="card-text">Track your service status</p>
                     </div>
                 </div>
             </a>

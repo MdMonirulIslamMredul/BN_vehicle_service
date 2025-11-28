@@ -7,7 +7,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
     </style>
 </head>
 <body>
@@ -19,7 +23,7 @@
         <div class="overlay" id="overlay"></div>
     @endauth
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3  **fixed-top**">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 fixed-top" style="z-index: 1000;">
         <div class="container">
             @auth
             <button class="btn btn-dark d-lg-none me-2" id="sidebarToggle"><i class="bi bi-list"></i></button>
@@ -82,7 +86,7 @@
     </nav>
 
     {{-- Main content --}}
-    <main class="container py-5 @auth dashboard-content-padding @endauth">
+    <main class="container py-5 @auth dashboard-content-padding @endauth" style="margin-top: 80px;">
         @yield('content')
     </main>
 
@@ -111,17 +115,16 @@
         /* Sidebar styling */
         .sidebar {
                 width: 220px;
-                /* CHANGE: Set 'top' to the height of your navbar (e.g., 65px or 70px) */
-                top: 65px;
+                top: 0;
                 left: 0;
                 position: fixed;
-                /* CHANGE: Reduce height since it starts 65px down */
-                height: calc(100vh - 65px);
+                height: 100vh;
                 background-color: #212529;
-                /* REMOVE: Remove fixed padding-top here as 'top' handles the offset */
-                z-index: 1000;
+                padding-top: 80px;
+                z-index: 999;
                 transform: translateX(-100%);
                 transition: 0.3s;
+                overflow-y: auto;
             }
 
         .sidebar.show { transform: translateX(0); }

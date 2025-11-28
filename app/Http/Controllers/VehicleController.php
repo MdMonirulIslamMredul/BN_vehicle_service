@@ -14,7 +14,9 @@ class VehicleController extends Controller
     public function index()
     {
         //
-         $vehicles = Vehicle::where('user_id', Auth::id())->get();
+         $vehicles = Vehicle::where('user_id', Auth::id())
+            ->orderBy('created_at', 'desc')
+            ->paginate(12);
         return view('vehicles.index', compact('vehicles'));
 
     }
@@ -39,6 +41,9 @@ class VehicleController extends Controller
             'model' => 'nullable|string|max:255',
             'year' => 'nullable|string|max:10',
             'color' => 'nullable|string|max:255',
+        ], [
+            'chassis_number.unique' => 'This chassis number is already registered in the system.',
+            'registration_number.unique' => 'This registration number is already registered in the system.',
         ]);
 
         Vehicle::create([
@@ -71,13 +76,16 @@ class VehicleController extends Controller
         $this->authorizeVehicle($vehicle);
 
         $validated = $request->validate([
-            'chassis_number' => 'required|string|max:255',
-            'registration_number' => 'required|string|max:255',
+            'chassis_number' => 'required|string|max:255|unique:vehicles,chassis_number,' . $vehicle->id,
+            'registration_number' => 'required|string|max:255|unique:vehicles,registration_number,' . $vehicle->id,
             'make' => 'required|string|max:100',
             'model' => 'required|string|max:100',
             'year' => 'required|string',
             'color' => 'nullable|string|max:100',
 
+        ], [
+            'chassis_number.unique' => 'This chassis number is already registered in the system.',
+            'registration_number.unique' => 'This registration number is already registered in the system.',
         ]);
 
         $vehicle->update($validated);
